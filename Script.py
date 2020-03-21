@@ -272,7 +272,6 @@ kdf = PBKDF2HMAC(
 key = base64.urlsafe_b64encode(kdf.derive(password))
 f = Fernet(key)
 no_tab = True
-print(key)
 print("Creer un mot de passe : 1\n")
 print("Autologin : 2\n")
 print("Password Viewer : 3\n")
