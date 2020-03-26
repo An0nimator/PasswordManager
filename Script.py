@@ -256,9 +256,70 @@ def Change_Password(f):
 
     with open("data.txt", "w") as file:
         file.write(newText)
-               
-#Bloc principale 
 
+    print("Le mot de passe maitre a bien été changé.")
+
+def Remove_Password(f):
+    #Ouverture du fichier data.txt
+    password_file = open('data.txt', "r")
+    password_Flist = [password_file.read()]
+    password_Flist = ",".join(password_Flist)
+    password_Flist = password_Flist.split(",")
+    password_list = []
+
+    # Crée une liste avec tout les noms des applications
+    b=0
+    c=4
+    website_list = []
+    while b < len(password_Flist):
+        if b == c:
+            c+=4
+            website_list.append(password_Flist[b].replace("\n", ""))
+            pass
+        elif b==0:
+            website_list.append(password_Flist[b].replace("\n",""))
+            pass
+        b+=1
+    if website_list[len(website_list)-1] == '':
+        del website_list[len(website_list)-1]
+        pass
+    
+    password_file.close()
+
+    # Affichage de selection des applications
+    d = 0
+    while d < len(website_list):
+        print("{} : {}".format(d,website_list[d]))
+        d+=1
+        
+    website_choice = int(input("Choix : "))
+
+    # Crée une liste avec tout les mots de passe 
+    i=0
+    a=2
+    while i < len(password_Flist):
+        if i==a:
+            a+=4
+            password_list.append(password_Flist[i].replace(" ", ""))
+            pass
+        i+=1
+
+    #Essaye d'ouvrir un mot de passe pour voir si la clé est la bonne
+    try:
+        f.decrypt(password_list[1].encode())
+    except:
+        print("Vous ne possedez pas le mot de passe permettant de réaliser cette action !") 
+        return None
+    with open("data.txt", "r") as password_file:
+        lines = password_file.readlines()
+        password_file.close()
+    with open("data.txt", "w") as password_file:          
+        for line in lines:
+            if line != lines[website_choice]:
+                password_file.write(line)
+    print("Le mot de passe a bien été supprimé.")
+
+#Bloc principale 
 print('Gestionnaire de mot de passe\n')
 password = input("Mot de passe : ").encode()
 salt = b'156'
@@ -272,10 +333,13 @@ kdf = PBKDF2HMAC(
 key = base64.urlsafe_b64encode(kdf.derive(password))
 f = Fernet(key)
 no_tab = True
+
 print("Creer un mot de passe : 1\n")
 print("Autologin : 2\n")
 print("Password Viewer : 3\n")
 print("Password Changer : 4\n")
+print("Password Remover : 5\n")
+
 select = ""
 while select != 'q':
     select = input("Commande : ")
@@ -294,6 +358,9 @@ while select != 'q':
         pass
     elif select == "4":
         Change_Password(f)
+        pass
+    elif select == "5":
+        Remove_Password(f)
         pass
     elif select == 'q':
         print('Fermeture application.')
