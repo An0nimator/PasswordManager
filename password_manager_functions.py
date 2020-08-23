@@ -13,12 +13,7 @@ import os
 def CreatePassword(f, application_name, application_url, application_username, password_lenght):
 
     password_file = open('data.txt', "a")
-    #website = input("A quelle site souhaiteriez vous affiler votre mot de passe : ")
-    #website_url = input("Saisissez son url : ")
-    #website_login = input("Entrez votre identifiant : ")
     dictionnaire = "abcdefghijklmnopqrstuvwxyz01234567890123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!§:/;.,?*%^¨$"
-    #password_lenght = input("Veuillez entrer la longueur du mot de passe : ")
-    #password_lenght = int(password_lenght)
     password = []
     i=0
 
@@ -312,7 +307,7 @@ def Remove_Password(f):
             if line != lines[website_choice]:
                 password_file.write(line)
     print("Le mot de passe a bien été supprimé.")
-"""
+
 def Rewrite_Password(f):
     encoded_password_to_change = Password_Viewer(f)
     changed_password = f.encrypt(input("Entrez le mot de passe de rechange : ").encode())
@@ -324,7 +319,7 @@ def Rewrite_Password(f):
     fichier = open("data.txt", "wt")
     fichier.write(data)
     fichier.close()
-"""
+
 #def Forgot_Password(f):
 
 def fernetKeyCreation(master_password):
@@ -340,47 +335,3 @@ def fernetKeyCreation(master_password):
     f = Fernet(key)
     return f
 
-"""
-#Bloc principale 
-print('Gestionnaire de mot de passe\n')
-password = input("Mot de passe : ").encode()
-f = fernetKeyCreation(password)
-
-print("\n Creer un mot de passe : 1\n")
-print("Autologin : 2\n")
-print("Password Viewer : 3\n")
-print("Master Password Changer : 4\n")
-print("Password Remover : 5\n")
-print("Password Rewriter : 6\n")
-
-select = ""
-while select != 'q':
-    select = input("Commande : ")
-    if select == "1":
-        CreatePassword(f)
-        print("Mot de passe cree avec succes...")
-        pass
-    elif select == "2":
-        if no_tab:
-            driver = webdriver.Firefox()
-            no_tab = False
-        AutoLogin(f, driver)
-        pass
-    elif select == "3":
-        Password_Viewer(f, Web_Selector())
-        pass
-    elif select == "4":
-        Change_Password(f)
-        pass
-    elif select == "5":
-        Remove_Password(f)
-        pass
-    elif select == "6":
-        Rewrite_Password(f)
-        pass
-    elif select == 'q':
-        print('Fermeture application.')
-        pass
-    else:
-        print("{} n'est pas une commande valide...".format(select))
-"""
